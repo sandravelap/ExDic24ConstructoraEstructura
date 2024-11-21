@@ -1,0 +1,47 @@
+/* Constructora */
+
+DROP DATABASE IF EXISTS constructora;
+CREATE DATABASE constructora;
+USE constructora;
+
+/*obras ejecutadas*/
+CREATE TABLE obra (
+id INT PRIMARY KEY,
+nombre VARCHAR(50) NOT NULL UNIQUE,
+direccion VARCHAR(50) NOT NULL,
+entrega DATE
+);
+
+
+/* empleados de la constructora */
+CREATE TABLE empleado (
+dni VARCHAR(9) PRIMARY KEY,
+nombre VARCHAR(50) NOT NULL,
+sueldo FLOAT,
+nombreObra VARCHAR(50),
+CONSTRAINT fk_obraEmp FOREIGN KEY (nombreObra) REFERENCES obra(nombre)
+);
+
+
+
+/* maquinaria de la empresa para realizar las obras*/
+CREATE TABLE maquinaria (
+matricula VARCHAR(7) PRIMARY KEY,
+modelo VARCHAR(20) NOT NULL,
+empleado  varchar(9),
+nombreObra VARCHAR(50),
+CONSTRAINT fk_empleado FOREIGN KEY (empleado) REFERENCES empleado(dni),
+CONSTRAINT fk_obraMaq FOREIGN KEY (nombreObra) REFERENCES obra(nombre)
+);
+
+INSERT INTO obra VALUES (1,'URBANIZACIÓN BUENAVISTA','C/MAYOR 3', '2023/03/02');
+INSERT INTO obra VALUES (2,'RESIDENCIAL MIRAFLORES','C/MENOR 2', '2025/05/02');
+INSERT INTO obra VALUES (3,'BAR EL PEDREGAL','C/OSA 12', '2024/05/02');
+INSERT INTO obra VALUES (4,'POLIDEPORTIVO MUNICIPAL','C/FRONTÓN 25', '2024/10/20');
+
+
+INSERT INTO empleado VALUES ('17123456A', 'PEDRO PICAPIEDRA', 3000.0, 'RESIDENCIAL MIRAFLORES');
+INSERT INTO empleado VALUES ('19123456B', 'PABLO MARMOL', 2000.0, 'RESIDENCIAL MIRAFLORES');
+
+INSERT INTO maquinaria VALUES ('1234BCD', 'EXCAVADORA 2000', '17123456A','RESIDENCIAL MIRAFLORES');
+INSERT INTO maquinaria VALUES ('4567XYZ', 'MANITOU 3000', '19123456B', 'RESIDENCIAL MIRAFLORES');
